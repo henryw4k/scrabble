@@ -1,2 +1,2 @@
 # scrabble
-A scrabble game
+A scrabble game made by Henry Wong
