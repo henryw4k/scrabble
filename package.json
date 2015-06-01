@@ -1,0 +1,23 @@
+{
+  "name": "scrabble",
+  "version": "0.0.0",
+  "description": "A scrabble game made by Henry Wong",
+  "main": "angularApp.js",
+  "dependencies": {
+    "bower": "~1.4.1",
+    "express": "~4.12.4"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/henryw4k/scrabble.git"
+  },
+  "author": "",
+  "license": "BSD-2-Clause",
+  "bugs": {
+    "url": "https://github.com/henryw4k/scrabble/issues"
+  }
+}
