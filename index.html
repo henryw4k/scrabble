@@ -1,16 +1,27 @@
 <html>
   <head>
-    <title>My Angular App!</title>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
-    <script src="angularApp.js"></script>
+    <title>Scrabble App</title>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.css">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+
   </head>
+
   <body ng-app="Scrabble" ng-controller="MainCtrl" ng-keyup="$broadcast('my:keyup', $event)">
 
-    <div>
-      The answer: {{word}}
-      <br>
-      The shuffled word: {{shuffled}}
+    <div class="container">
+      <button class="btn btn-default" ng-click="toggle()">Show Answer</button>
+      <span class="bg-danger" ng-hide="myVar">The answer: {{word}}</span>
+      <div class="text-right"ng-model="points">Point: {{points}}</div>
+
+
+      <div class="text-center">
+        <h1>The shuffled word: {{shuffled}}</h1>
+        <h1>Your Guess: {{guess}}</h1>
+      </div>
     </div>
-      Your Guess: {{guess}}
   </body>
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/0.5.0/sweet-alert.min.js"></script>    
+  <script src="angularApp.js"></script>
 </html>

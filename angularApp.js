@@ -4,12 +4,43 @@ app.controller('MainCtrl', [
 '$scope', 'wordNik', '$filter','$document',
 function($scope, wordNik, $filter, $document){
   $scope.guess = '';
+  $scope.myVar = true;
+  $scope.points = 0;
+
+  // $scope.toggle = function(){
+  //   swal({
+  //     title: "Are you sure?",
+  //     text: "Your points will reset to ZERO!",
+  //     type: "warning",
+  //     showCancelButton: true,
+  //     confirmButtonColor: "#DD6B55",
+  //     confirmButtonText: "Yes, reset my points",
+  //     cancelButtonText: "No, don't do that",
+  //     closeOnConfirm: false,
+  //     closeOnCancel: false
+  //   },
+  //   function(isConfirm){
+  //     if (isConfirm){
+  //       // toggleSwitch();
+  //       swal("Points Reset!", "You suck!!!", "success");
+  //     } else {
+  //       swal("Cancelled", "I'm a boss", "error");
+  //     }
+  //   });
+  // }//toggle
+
+  $scope.toggle = function(){
+    $scope.myVar = !$scope.myVar;
+  };
+
 
   wordNik.getWordPromise()
   .then(function(response){
   	$scope.word = response.data.word.toUpperCase();
   	$scope.shuffled = wordNik.shuffle($scope.word);
+    wordNik.word = $scope.word;
     //storeLeftOver in wordNik
+  });
 
     $scope.$on('my:keyup', function(event, keyEvent) {
       var keyTyped = $filter('convert')(keyEvent.keyCode);
@@ -22,16 +53,28 @@ function($scope, wordNik, $filter, $document){
         $scope.guess = wordNik.guess;
         //winning logic
         if(new String($scope.word).valueOf() === new String($scope.guess).valueOf()){
-          console.log("YOU WIN!!!!!");
-          window.alert("You Win!");
+          swal("Good Job!", "success");
+          $scope.points++;
+          wordNik.getWordPromise()
+          .then(function(response){
+            $scope.word = response.data.word.toUpperCase();
+            wordNik.word = $scope.word;
+            $scope.shuffled = wordNik.shuffle($scope.word);
+            wordNik.word = $scope.word;
+            $scope.myVar = true;
+            $scope.guess = '';
+            wordNik.restartGame();
+            //storeLeftOver in wordNik
+          });
+          //reinitialize $scope values
+
+      // PRINT OUT
+        console.log("shuffled word: ", wordNik.scramble);
+        console.log("guess word: ", wordNik.guess);
+        console.log("stack: ", wordNik.stack);
         }
       }
     });
-      console.log("shuffled word: ", wordNik.scramble);
-      console.log("guess word: ", wordNik.guess);
-      console.log("stack: ", wordNik.stack);
-
-  });
 
   //Back space logic
   $document.on('keydown', function(e){
@@ -59,6 +102,7 @@ app.factory('wordNik', ['$http',
 		var obj = {};
 
     //persistent memory
+    obj.word = '';
     obj.scramble = '';
     obj.guess = '';
     obj.stack = []; //a stack {character, index}
@@ -115,6 +159,12 @@ app.factory('wordNik', ['$http',
           var newValue = left + lastItem.character + right;
           this.scramble = newValue;
         }
+      }
+
+      obj.restartGame = function(){
+            this.guess = '';
+            this.stack = [];
+            console.log('restart');
       }
 
 	     return obj;
